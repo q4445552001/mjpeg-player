@@ -1,0 +1,50 @@
+<center>
+<body style="margin-top: 0;margin-left: 0;margin-bottom: 0" bgcolor="black" onload="ShowTime()">
+<div id="mjpeg" ></div>
+</body>
+</center>
+
+<script language="JavaScript">
+
+var path = "http://" + location.hostname + ":80/hls/mjpeg.jpg?t=";
+var time = 0;
+var delay = 250;
+
+//抓取body長寬
+var bodywidth = document.body.clientWidth;
+var bodyheight = document.body.clientHeight;
+var width = bodywidth;
+var height = bodyheight;
+
+function ShowTime(width,height)
+{
+	document.getElementById('mjpeg').innerHTML  = "<img src='" + path + (time - delay) + "' width=" + width + " height=" + height + ">";
+
+	//預載圖片
+	time = time + delay ;
+	var img = new Image();
+	img.src = path + time;
+
+	//判斷寬螢幕或直螢幕
+
+	if (bodywidth > bodyheight){
+		width = bodyheight * 1.2;
+		height = bodyheight;
+	}
+	else{
+		width = bodywidth;
+		height = bodywidth / 1.2;
+	}
+
+	setTimeout('ShowTime(' + width + ',' + height + ')',delay);
+}
+
+//視窗大小改變監控事件
+var supportsOrientationChange ="onorientationchange" in window,
+	orientationEvent = supportsOrientationChange?"orientationchange" :"resize";
+
+window.addEventListener(orientationEvent, function() {
+	location.reload();
+}, false);
+
+</script>
