@@ -20,4 +20,3 @@ ffmpeg \
     -vf fps=$fps \
     -update 1 \
     -y $out
-
